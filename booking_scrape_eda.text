@@ -5,8 +5,8 @@ Created on Fri Jun 27 13:07:18 2025
 
 @author: chrisl
 """
-#pip install matplotlib
-#pip install tensorflow
+# pip install matplotlib
+# pip install tensorflow
 
 # Import required libraries
 import pandas as pd
@@ -19,7 +19,8 @@ import sqlite3
 sns.set_theme()
 
 # Connect to SQLite database
-conn = sqlite3.connect(r"/Users/chrisl/Documents/Project Work 2025/Xccelerate_Scraping_Project /hotels.db")
+conn = sqlite3.connect(
+    r"/Users/chrisl/Documents/Project Work 2025/Xccelerate_Scraping_Project /hotels.db")
 
 # Load data into DataFrame
 df = pd.read_sql("SELECT * FROM hotel_data", conn)
@@ -47,13 +48,17 @@ print("-" * 200)
 
 # Clean Prices column: Remove non-numeric characters and convert safely to integer
 if 'Prices' in df.columns:
-    df['Prices'] = df['Prices'].astype(str).str.replace(r'[^\d.]+', '', regex=True)  # Remove all non-digit chars
-    df['Prices'] = pd.to_numeric(df['Prices'], errors='coerce')                     # Convert to float
-    df['Prices'] = df['Prices'].fillna(0).astype(int)                               # Fill blanks and convert to int
+    df['Prices'] = df['Prices'].astype(str).str.replace(
+        r'[^\d.]+', '', regex=True)  # Remove all non-digit chars
+    # Convert to float
+    df['Prices'] = pd.to_numeric(df['Prices'], errors='coerce')
+    # Fill blanks and convert to int
+    df['Prices'] = df['Prices'].fillna(0).astype(int)
 
 # Clean 'Distances' column - keep only numbers and decimals
 if 'Distances' in df.columns:
-    df['Distances'] = df['Distances'].astype(str).str.replace(r'[^\d.]+', '', regex=True)
+    df['Distances'] = df['Distances'].astype(
+        str).str.replace(r'[^\d.]+', '', regex=True)
     df['Distances'] = pd.to_numeric(df['Distances'], errors='coerce')
     df['Distances'] = df['Distances'].fillna(0.0)
 
@@ -96,7 +101,8 @@ csv_file = r"/Users/chrisl/Documents/Project Work 2025/Xccelerate_Scraping_Proje
 conn = sqlite3.connect(sqlite_clean_db)
 df.to_sql("cleaned_hotel_data", conn, if_exists='replace', index=False)
 conn.close()
-print(f"Cleaned data saved to SQLite: {sqlite_clean_db} (Table: cleaned_hotel_data)")
+print(
+    f"Cleaned data saved to SQLite: {sqlite_clean_db} (Table: cleaned_hotel_data)")
 
 # Save to CSV
 df.to_csv(csv_file, index=False)
